@@ -2,47 +2,47 @@
 
 namespace App\Models;
 
-// use Illuminate\Contracts\Auth\MustVerifyEmail;
-use Illuminate\Database\Eloquent\Factories\HasFactory;
-use Illuminate\Foundation\Auth\User as Authenticatable;
-use Illuminate\Notifications\Notifiable;
+use Illuminate\Contracts\Auth\Authenticatable;
+use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 
-class User extends Authenticatable
+class User extends Model implements Authenticatable
 {
-    /** @use HasFactory<\Database\Factories\UserFactory> */
-    use HasFactory, Notifiable;
+    protected $table = "users";
+    protected $primaryKey = "id";
+    protected $keyType = "int";
+    public $incrementing = true;
+    public $timestamps = true;
 
-    /**
-     * The attributes that are mass assignable.
-     *
-     * @var list<string>
-     */
     protected $fillable = [
-        'name',
-        'email',
-        'password',
+        "username",
+        "password",
+        "name",
+        "token"
     ];
 
-    /**
-     * The attributes that should be hidden for serialization.
-     *
-     * @var list<string>
-     */
-    protected $hidden = [
-        'password',
-        'remember_token',
-    ];
-
-    /**
-     * Get the attributes that should be cast.
-     *
-     * @return array<string, string>
-     */
-    protected function casts(): array
-    {
-        return [
-            'email_verified_at' => 'datetime',
-            'password' => 'hashed',
-        ];
+    public function contacts(){
+        return $this->hasMany(Contact::class, "user_id", "id");
+    }
+    public function getAuthIdentifierName(){
+        return 'username';
+    }
+    public function getAuthIdentifier(){
+        return $this->username;
+    }
+    public function getAuthPassword(){
+        return $this->password;
+    }
+    public function getAuthPasswordName(){
+        return 'password';
+    }
+    public function getRememberToken(){
+        return $this->token;
+    }
+    public function setRememberToken($value){
+        $this->token = $value;
+    }
+    public function getRememberTokenName(){
+        return 'token';
     }
 }

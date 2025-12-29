@@ -1,0 +1,312 @@
+{
+    "openapi":"3.0.3",
+    "info": {
+      "title":"Address API",
+      "version":"1.0"
+    },
+    "servers": [
+      {
+        "url": "https://localhost:3306"
+        }
+    ],
+    "paths": {
+        "/api/contacts/{idContact}/addresses" : {
+            "post": {
+                "description": "Create new address",
+                "parameters": [
+                    {
+                        "name" : "Authorization",
+                        "in": "header",
+                        "schema" : {
+                            "type" : "string"
+                        }
+                    },
+                    {
+                        "name": "idContact",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "number"
+                        }
+                    }
+                ],
+                "requestBody" : {
+                    "description": "Create new address",
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#components/schemas/AddressCreateRequest"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200" : {
+                        "description": "Success create address",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#components/schemas/AddressCreateResponse"
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "get": {
+                "description": "Get list of addresses",
+                "parameters": [
+                    {
+                        "name" : "Authorization",
+                        "in": "header",
+                        "schema" : {
+                            "type" : "string"
+                        }
+                    },
+                    {
+                        "name": "idContact",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "number"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Success get list of addresses",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#components/schemas/AddressGetListResponse"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/contacts/{idContact}/addresses/{idAddress}" : {
+            "get": {
+                "description": "Get address by id",
+                "parameters": [
+                    {
+                        "name" : "Authorization",
+                        "in": "header",
+                        "schema" : {
+                            "type" : "string"
+                        }
+                    },
+                    {
+                        "name": "idContact",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "number"
+                        }
+                    },
+                    {
+                        "name": "idAddress",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "number"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200" : {
+                        "description": "Success create address",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#components/schemas/AddressGetResponse"
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "put": {
+                "description": "Update address by id",
+                "parameters": [
+                    {
+                        "name" : "Authorization",
+                        "in": "header",
+                        "schema" : {
+                            "type" : "string"
+                        }
+                    },
+                    {
+                        "name": "idContact",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "number"
+                        }
+                    },
+                    {
+                        "name": "idAddress",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "number"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "description": "Update existing contact address",
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#components/schemas/AddressUpdateRequest"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200" : {
+                        "description": "Success create address",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#components/schemas/AddressUpdateResponse"
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "delete": {
+                "description": "Delete address by id",
+                "parameters": [
+                    {
+                        "name" : "Authorization",
+                        "in": "header",
+                        "schema" : {
+                            "type" : "string"
+                        }
+                    },
+                    {
+                        "name": "idContact",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "number"
+                        }
+                    },
+                    {
+                        "name": "idAddress",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "number"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200" : {
+                        "description": "success delete address by id",
+                        "content": {
+                            "application/json":{
+                                "schema": {
+                                    "$ref": "#components/schemas/AddressDeleteResponse"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+
+    },
+    "components": {
+        "schemas": {
+            "AddressCreateRequest": {
+                "type": "object",
+                "properties": {
+                    "street": {
+                        "type": "string"
+                    },
+                    "city": {
+                        "type": "string"
+                    },
+                    "province": {
+                        "type": "string"
+                    },
+                    "country": {
+                        "type": "string"
+                    },
+                    "postal_code": {
+                        "type": "string"
+                    }
+                }
+            },
+            "AddressCreateResponse": {
+                "type": "object",
+                "properties": {
+                    "data": {
+                        "type": "object",
+                        "properties": {
+                            "id": {
+                                "type": "number"
+                            },
+                            "street": {
+                                "type": "string"
+                            },
+                            "city": {
+                                "type": "string"
+                            },
+                            "province": {
+                                "type": "string"
+                            },
+                            "country": {
+                                "type": "string"
+                            },
+                            "postal_code": {
+                                "type": "string"
+                            }
+                        }
+                    },
+                    "error": {
+                        "type": "object"
+                    }
+                }
+            },
+            "AddressGetListResponse": {
+                "type": "object",
+                "properties": {
+                    "data":{
+                        "type": "array",
+                        "items": {
+                            "$ref": "#components/schemas/AddressCreateRequest"
+                        }
+                    },
+                    "errors":{
+                        "type": "object"
+                    }
+                }
+            },
+            "AddressGetResponse": {
+                "$ref": "#components/schemas/AddressCreateResponse"
+            },
+            "AddressUpdateRequest": {
+                "$ref": "#components/schemas/AddressCreateRequest"
+            },
+            "AddressUpdateResponse": {
+                "$ref": "#components/schemas/AddressCreateResponse"
+            },
+            "AddressDeleteResponse": {
+                "type": "object",
+                "properties": {
+                    "data":{
+                        "type": "boolean"
+                    },
+                    "errors":{
+                        "type": "object"
+                    }
+                }
+            }
+        }
+    }
+}

@@ -1,0 +1,411 @@
+{
+  "openapi":"3.0.3",
+  "info": {
+    "title":"User API",
+    "version":"1.0"
+  },
+  "servers": [
+    {
+      "url":"https://localhost:3306",
+      "description":"Local Server"
+      }
+  ],
+  "paths": {
+    "/api/users" : {
+      "post": {
+        "description": "Register new user",
+        "requestBody" : {
+          "content": {
+            "application/json" : {
+              "schema" : {
+                "$ref" : "#components/schemas/UserRegister"
+              },
+              "examples": {
+                "UserRegister" : {
+                  "$ref" : "#components/examples/UserRegister"
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "201" : {
+            "description": "Success register user",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#components/schemas/UserRegisterResponse"
+                },
+                "examples" : {
+                  "UserRegisterResponse" : {
+                    "$ref" : "#components/examples/UserRegisterResponse"
+                  }
+                }
+              }
+            }
+          },
+          "400" : {
+            "description": "Validation Error",
+            "content": {
+              "application/json" : {
+                "examples": {
+                  "UserRegisterResponseError" : {
+                    "$ref" : "#components/examples/UserRegisterResponseError"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/users/login" : {
+      "post" : {
+        "description": "Login user",
+        "requestBody" : {
+          "content": {
+            "application/json" : {
+              "schema" : {
+                "$ref" : "#components/schemas/UserLogin"
+              },
+              "examples": {
+                "UserLogin" : {
+                  "$ref" : "#components/examples/UserLogin"
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200" : {
+            "description": "Success login",
+            "content": {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#components/schemas/UserLoginResponse"
+                },
+                "examples": {
+                  "UserLoginResponse" : {
+                    "$ref" : "#components/examples/UserLoginResponse"
+                  }
+                }
+              }
+            }
+          },
+          "400" : {
+            "description": "Validation Error",
+            "content": {
+              "application/json" : {
+                "examples": {
+                  "UserLoginResponseError" : {
+                    "$ref" : "#components/examples/UserLoginResponseError"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/users/current" : {
+      "get" : {
+        "description": "Get current user",
+        "parameters": [
+          {
+            "name" : "Authorization",
+            "in": "header",
+            "schema" : {
+              "type" : "string"
+            }
+          }
+        ],
+        "responses": {
+          "200" : {
+            "description": "Success get current User",
+            "content" :{
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#components/schemas/UserGetResponse"
+                },
+                "examples": {
+                  "UserGetResponse" : {
+                    "$ref" : "#components/examples/UserGetResponse"
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "patch" : {
+        "description": "Update current user",
+        "parameters": [
+          {
+            "name" : "Authorization",
+            "in": "header",
+            "schema" : {
+              "type" : "string"
+            }
+          }
+        ],
+        "requestBody" : {
+          "description": "Update current user",
+          "content": {
+            "application/json" : {
+              "schema" : {
+                "$ref" : "#components/schemas/UserUpdateRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200" : {
+            "description": "Success update current User",
+            "content" :{
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#components/schemas/UserGetResponse"
+                },
+                "examples": {
+                  "UserGetResponse" : {
+                    "$ref" : "#components/examples/UserGetResponse"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/users/logout" : {
+      "delete" : {
+        "description": "Logout current user",
+        "parameters": [
+          {
+            "name" : "Authorization",
+            "in": "header",
+            "schema" : {
+              "type" : "string"
+            }
+          }
+        ],
+        "responses": {
+          "200" : {
+            "description": "Success logout current User",
+            "content" :{
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#components/schemas/UserLogoutResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "schemas" : {
+      "UserRegister" : {
+        "type": "object",
+        "required": ["username", "name", "password"],
+        "properties": {
+          "username" : {
+            "type": "string"
+          },
+          "password" : {
+            "type": "string"
+          },
+          "name" : {
+            "type": "string"
+          }
+        }
+      },
+      "UserRegisterResponse" : {
+        "type": "object",
+        "properties": {
+          "data" : {
+            "type": "object",
+            "properties": {
+              "id" : {
+                "type": "number"
+              },
+              "username" : {
+                "type": "string"
+              },
+              "name" : {
+                "type": "string"
+              }
+            }
+          },
+          "error": {
+            "type": "object"
+          }
+        }
+      },
+      "UserLogin" : {
+        "type": "object",
+        "properties": {
+          "username" : {
+            "type": "string"
+          },
+          "password" : {
+            "type": "string"
+          }
+        }
+      },
+      "UserLoginResponse" : {
+        "type": "object",
+        "properties": {
+          "data" : {
+            "type": "object",
+            "properties": {
+              "id" : {
+                "type": "number"
+              },
+              "username" : {
+                "type": "string"
+              },
+              "name" : {
+                "type": "string"
+              },
+              "token" : {
+                "type": "string"
+              }
+            }
+          },
+          "error": {
+            "type": "object"
+          }
+        }
+      },
+      "UserGetResponse" : {
+        "type": "object",
+        "properties": {
+          "data" : {
+            "type": "object",
+            "properties": {
+              "id" : {
+                "type": "number"
+              },
+              "username" : {
+                "type": "string"
+              },
+              "name" : {
+                "type": "string"
+              }
+            }
+          },
+          "error": {
+            "type": "object"
+          }
+        }
+      },
+      "UserUpdateRequest" : {
+        "type": "object",
+        "properties": {
+          "name" : {
+            "type": "string"
+          },
+          "password" : {
+            "type": "string"
+          }
+        }
+      },
+      "UserLogoutResponse" : {
+        "type": "object",
+        "properties": {
+          "data" : {
+            "type": "boolean"
+          },
+          "error": {
+            "type": "object"
+          }
+        }
+      }
+    },
+    "examples": {
+      "UserRegister" : {
+        "summary": "User Register",
+        "description": "Attempt User Register",
+        "value" : {
+          "username" : "earldev4",
+          "password" : "rahasia",
+          "name" : "earldev"
+        }
+      },
+      "UserRegisterResponse" : {
+        "summary": "User Register Response",
+        "description": "Success Register User",
+        "value" : {
+          "data" : {
+            "id" : 1,
+            "username" : "earldev4",
+            "name" : "earldev"
+          }
+        }
+      },
+      "UserRegisterResponseError" : {
+        "description": "Validation error",
+        "summary": "Validation Error",
+        "value" : {
+          "error" : {
+            "username" : [
+              "The username field is required.",
+              "The username field must be at least 3 characters."
+            ],
+            "name" : [
+              "The name field is required.",
+              "The username field must be at least 3 characters."
+            ]
+          }
+        }
+      },
+      "UserLogin" : {
+        "summary": "User Login",
+        "description": "Attempt User Login",
+        "value" : {
+          "username" : "earldev4",
+          "password" : "rahasia"
+        }
+      },
+      "UserLoginResponse" : {
+        "summary": "User Login Response",
+        "description": "Success Login User",
+        "value" : {
+          "data" : {
+            "id" : 1,
+            "username" : "earldev4",
+            "name" : "earldev",
+            "token" : "X-User-Token"
+          }
+        }
+      },
+      "UserLoginResponseError" : {
+        "description": "Validation error",
+        "summary": "Validation Error",
+        "value" : {
+          "error" : {
+            "username" : [
+              "The username field is required."
+            ],
+            "password" : [
+              "The password field is required."
+            ]
+          }
+        }
+      },
+      "UserGetResponse" : {
+        "description": "User Get Response",
+        "summary": "Get response success",
+        "value" : {
+          "data" : {
+            "id" : 1,
+            "username" : "earldev4",
+            "name" : "earldev"
+          }
+        }
+      }
+    }
+  }
+}

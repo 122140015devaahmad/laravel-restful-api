@@ -1,0 +1,320 @@
+{
+    "openapi":"3.0.3",
+    "info": {
+      "title":"Contact API",
+      "version":"1.0"
+    },
+    "servers": [
+      {
+        "url": "https://localhost:3306"
+        }
+    ],
+    "paths": {
+        "/api/contacts" : {
+            "post" : {
+                "description": "Create new contact",
+                "parameters": [
+                    {
+                        "name" : "Authorization",
+                        "in": "header",
+                        "schema" : {
+                            "type" : "string"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "description": "Create new contact",
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#components/schemas/ContactCreateRequest"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200" : {
+                        "description": "Success create contact",
+                        "content": {
+                            "application/json" : {
+                                "schema" : {
+                                    "$ref" : "#components/schemas/ContactCreateResponse"
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "get" : {
+                "description": "Search contacts",
+                "parameters": [
+                    {
+                        "name" : "Authorization",
+                        "in": "header",
+                        "schema" : {
+                            "type" : "string"
+                        }
+                    },
+                    {
+                        "name": "name",
+                        "in": "query",
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "phone",
+                        "in": "query",
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "email",
+                        "in": "query",
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "size",
+                        "in": "query",
+                        "schema": {
+                            "type": "number"
+                        }
+                    },
+                    {
+                        "name": "page",
+                        "in": "query",
+                        "schema": {
+                            "type": "number"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200" : {
+                        "description": "Success search contacts",
+                        "content": {
+                            "application/json" : {
+                                "schema": {
+                                    "$ref" : "#components/schemas/ContactSearchResponse"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/contacts/{id}" : {
+            "get" : {
+                "description": "Get contact by id",
+                "parameters": [
+                    {
+                        "name" : "Authorization",
+                        "in": "header",
+                        "schema" : {
+                            "type" : "string"
+                        }
+                    },
+                    {
+                        "name" : "id",
+                        "in": "path",
+                        "schema" : {
+                            "type" : "number"
+                        },
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200" : {
+                        "description": "Success get contact",
+                        "content": {
+                            "application/json" : {
+                                "schema" : {
+                                    "$ref" : "#components/schemas/ContactGetResponse"
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "put" : {
+                "description": "Update contact by id",
+                "parameters": [
+                    {
+                        "name" : "Authorization",
+                        "in": "header",
+                        "schema" : {
+                            "type" : "string"
+                        }
+                    },
+                    {
+                        "name" : "id",
+                        "in": "path",
+                        "schema" : {
+                            "type" : "number"
+                        },
+                        "required": true
+                    }
+                ],
+                "requestBody": {
+                    "description": "Update contact",
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#components/schemas/ContactUpdateRequest"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200" : {
+                        "description": "Success update contact",
+                        "content": {
+                            "application/json" : {
+                                "schema" : {
+                                    "$ref" : "#components/schemas/ContactUpdateResponse"
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "delete" : {
+                "description": "Delete contact by id",
+                "parameters": [
+                    {
+                        "name" : "Authorization",
+                        "in": "header",
+                        "schema" : {
+                            "type" : "string"
+                        }
+                    },
+                    {
+                        "name" : "id",
+                        "in": "path",
+                        "schema" : {
+                            "type" : "number"
+                        },
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200" : {
+                        "description": "Success delete contact",
+                        "content": {
+                            "application/json" : {
+                                "schema" : {
+                                    "$ref": "#components/schemas/ContactDeleteResponse"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    },
+    "components" : {
+        "schemas": {
+            "ContactCreateRequest" : {
+                "type": "object",
+                "properties": {
+                    "first_name" : {
+                        "type": "string"
+                    },
+                    "last_name" : {
+                        "type": "string"
+                    },
+                    "email" : {
+                        "type": "string"
+                    },
+                    "phone" : {
+                        "type": "string"
+                    }
+                }
+            },
+            "ContactCreateResponse" : {
+                "type": "object",
+                "properties": {
+                    "data" : {
+                        "type": "object",
+                        "properties": {
+                            "id" : {
+                                "type": "number"
+                            },
+                            "first_name" : {
+                                "type": "string"
+                            },
+                            "last_name" : {
+                                "type": "string"
+                            },
+                            "email" : {
+                                "type": "string"
+                            },
+                            "phone" : {
+                                "type": "string"
+                            }
+                        }
+                    },
+                    "error" : {
+                        "type": "object"
+                    }
+                }
+            },
+            "ContactSearchResponse" : {
+                "type": "object",
+                "properties": {
+                    "data": {
+                        "type": "array",
+                        "items" :{
+                            "type": "object",
+                            "properties": {
+                                "id" : {
+                                    "type": "number"
+                                },
+                                "first_name" : {
+                                    "type": "string"
+                                },
+                                "last_name" : {
+                                    "type": "string"
+                                },
+                                "email" : {
+                                    "type": "string"
+                                },
+                                "phone" : {
+                                    "type": "string"
+                                }
+                            }
+                        }
+                    },
+                    "error": {
+                        "type": "object"
+                    },
+                    "meta": {
+                        "type": "object"
+                    }
+                }
+            },
+            "ContactGetResponse" : {
+                "$ref" : "#components/schemas/ContactCreateResponse"
+            },
+            "ContactUpdateRequest" : {
+                "$ref" : "#components/schemas/ContactCreateRequest"
+            },
+            "ContactUpdateResponse" : {
+                "$ref" : "#components/schemas/ContactCreateResponse"
+            },
+            "ContactDeleteResponse" : {
+                "type": "object",
+                "properties": {
+                    "data" : {
+                        "type": "boolean" 
+                    },
+                    "error" : {
+                        "type": "object"
+                    }
+                }
+            }
+        }
+    }
+}
